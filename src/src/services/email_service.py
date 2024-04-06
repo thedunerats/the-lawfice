@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 def send_email(from_email, to_emails, subject, content):
     other_thing = os.getenv('SENDGRID_KEY')
-    logger.info(other_thing)
+    print(other_thing)
     message = Mail(
         from_email=from_email,
         to_emails=to_emails,
