@@ -61,14 +61,14 @@ def format_and_send_email():
     phone_number = json['your-phone']
     name = json['your-name']
     subject = json['your-case']
-    email = json['your-email']
+    email = json['your-email'] if is_valid_email(json['your-email']) else "No email provided"
     body = json['your-message'] + '\nMy name is ' + name + '. Call me at ' + phone_number + \
            ' or email me at ' + email
     recipients = ['scott@bassinlaw.net', 'doug@bassinlaw.net']
-    if not is_valid_email(email):
-        return make_response(jsonify(failure_reason='INVALID EMAIL ADDRESS', status=406), 406)
+    # if not is_valid_email(email):
+    #     return make_response(jsonify(failure_reason='INVALID EMAIL ADDRESS', status=406), 406)
     if not is_phone_number(phone_number):
         return make_response(jsonify(failure_reason='INVALID PHONE NUMBER', status=406), 406)
     response = send_email('doug@bassinlaw.net', recipients, subject, body)
-    return make_response(jsonify(confirmation='Email sent!\nStatus code returned: ' + response.status_code, status=200),
-                         200)
+    return make_response(jsonify(confirmation='Email sent!\nStatus code returned: ' + str(response.status_code),
+                                 status=200), 200)
